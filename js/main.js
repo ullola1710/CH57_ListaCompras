@@ -13,9 +13,15 @@ const alertValidacionesTexto = document.getElementById("alertValidacionesTexto")
 const tablaListaCompras = document.getElementById("tablaListaCompras");
 const cuerpoTabla = tablaListaCompras.getElementsByTagName("tbody").item(0);
 
+const contadorProductos = document.getElementById("contadorProductos");
+const productosTotal = document.getElementById("productosTotal");
+const precioTotal = document.getElementById("precioTotal");
 
 // Contador
 let cont = 0;
+let costoTotal = 0;
+let totalEnProductos = 0; 
+
 
 // Number
 // Validar que sea numérico
@@ -82,6 +88,18 @@ btnAgregar.addEventListener("click", function (event) {
                 </tr>
         `;
         cuerpoTabla.insertAdjacentHTML("beforeend", row);
+
+        // Conteo del "Resumen" - Por tipo de producto
+        contadorProductos.innerText = cont; 
+
+        // Conteo de cantidad de productos - total
+        totalEnProductos += Number(txtNumber.value);
+        productosTotal.innerText = totalEnProductos;
+
+        // Precio total del resumen, tomando en cuenta la cantidad de cada producto
+        costoTotal += Number(precio*txtNumber.value);
+        precioTotal.innerText = new Intl.NumberFormat("es-MX", {style: "currency", currency: "MXN"}).format(costoTotal);
+
         txtName.value = "";
         txtNumber.value = "";
         txtName.focus(); // Con este automáticamente despues de limpia, regresa el cursor al campo del nombre
