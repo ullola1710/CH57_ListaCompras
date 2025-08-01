@@ -129,4 +129,38 @@ btnAgregar.addEventListener("click", function (event) {
         txtName.focus(); // Con este automáticamente despues de limpia, regresa el cursor al campo del nombre
     } // isValid
 
-}); // btnAgregar
+}); // btnAgregar click
+
+
+// Al darle refresh aparecerá esto = se guardará la información 
+window.addEventListener("load", function (event) {
+    event.preventDefault;
+
+    // "Ve por el localStorage en esta ventana"
+    if (this.localStorage.getItem("datos") != null) {
+        datos = JSON.parse(this.localStorage.getItem("datos")); // Obtener el arreglo
+        // Para mostrar la tabla cada que se haga refresh
+        datos.forEach((dato) => {
+            let row = `<tr>
+                    <td>${dato.cont}</td>
+                    <td>${dato.nombre}</td>
+                    <td>${dato.cantidad}</td>
+                    <td>${dato.precio}</td>
+                </tr>
+                `;
+            cuerpoTabla.insertAdjacentHTML("beforeend", row);
+        }); // forEach(dato)
+    } // datos != null
+    if (this.localStorage.getItem("resumen") != null) {
+        let resumen = JSON.parse(this.localStorage.getItem("resumen")); // Toma el string almacenado en el localStorage y lo convierte en un objeto
+        // Para obtener las caracteristicas del objeto (resumen)
+        costoTotal = resumen.costoTotal;
+        totalEnProductos = resumen.totalEnProductos;
+        cont = resumen.cont;
+    } // resumen != null
+
+    contadorProductos.innerText = cont;
+    productosTotal.innerText = totalEnProductos;
+    precioTotal.innerText = new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(costoTotal);
+
+}); // window load
