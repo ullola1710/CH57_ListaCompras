@@ -137,6 +137,7 @@ window.addEventListener("load", function (event) {
     event.preventDefault;
 
     // "Ve por el localStorage en esta ventana"
+    // Si es diferente a null, hay datos, entonces muestralo
     if (this.localStorage.getItem("datos") != null) {
         datos = JSON.parse(this.localStorage.getItem("datos")); // Obtener el arreglo
         // Para mostrar la tabla cada que se haga refresh
@@ -164,3 +165,43 @@ window.addEventListener("load", function (event) {
     precioTotal.innerText = new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(costoTotal);
 
 }); // window load
+
+// Limpiar todo
+btnClear.addEventListener("click", function (event) {
+
+    // 1. Eliminar el localStorage
+    event.preventDefault;
+    localStorage.removeItem("datos");
+    localStorage.removeItem("resumen");
+
+    // 2. Limpiar la tabla
+    cuerpoTabla.innerHTML = "";
+
+    // 3. Limpiar los campos
+    // De arriba
+    txtName.value = "";
+    txtNumber.value = "";
+    txtName.focus();
+
+    // 4. Limpiar el borde de los campos 
+    // De arriba
+    txtName.style.border = "";
+    txtNumber.style.border = "";
+
+    // 5. Limpiar los alerts
+    // De arriba
+    alertValidacionesTexto.innerHTML = "";
+    alertValidaciones.style.display = "none";
+
+    // 6. Limpiar el resumen
+    cont = 0;
+    totalEnProductos = 0;
+    costoTotal = 0;
+
+    contadorProductos.innerText = cont;
+    productosTotal.innerText = totalEnProductos;
+    precioTotal.innerText = new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(costoTotal);
+
+    // 7. Limpiar el arreglo datos
+    datos = new Array();
+})
