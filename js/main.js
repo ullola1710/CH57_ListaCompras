@@ -20,8 +20,10 @@ const precioTotal = document.getElementById("precioTotal");
 // Contador
 let cont = 0;
 let costoTotal = 0;
-let totalEnProductos = 0; 
+let totalEnProductos = 0;
 
+// Inicializar Arreglo para guardar los objetos que se vayan agregando a la lista
+let datos = new Array(); //[];
 
 // Number
 // Validar que sea numérico
@@ -87,18 +89,40 @@ btnAgregar.addEventListener("click", function (event) {
                     <td>${precio}</td>
                 </tr>
         `;
+
+        // Establecer que datos obtendrá el objeto
+        let elemento = {
+            "cont": cont,
+            "nombre": txtName.value,
+            "cantidad": txtNumber.value,
+            "precio": precio
+        };
+
+        // Agregar los ejemplos-objetos al arreglo creado
+        datos.push(elemento);
+        localStorage.setItem("datos", JSON.stringify(datos)); // Guardar el arreglo en el localStorage
+
         cuerpoTabla.insertAdjacentHTML("beforeend", row);
 
         // Conteo del "Resumen" - Por tipo de producto
-        contadorProductos.innerText = cont; 
+        contadorProductos.innerText = cont;
 
         // Conteo de cantidad de productos - total
         totalEnProductos += Number(txtNumber.value);
         productosTotal.innerText = totalEnProductos;
 
         // Precio total del resumen, tomando en cuenta la cantidad de cada producto
-        costoTotal += Number(precio*txtNumber.value);
-        precioTotal.innerText = new Intl.NumberFormat("es-MX", {style: "currency", currency: "MXN"}).format(costoTotal);
+        costoTotal += Number(precio * txtNumber.value);
+        precioTotal.innerText = new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(costoTotal);
+
+        // Objeto - JSON
+        let resumen = {
+            "cont": cont,
+            "totalEnProductos": totalEnProductos,
+            "costoTotal": costoTotal
+        };
+
+        localStorage.setItem("resumen", JSON.stringify(resumen)); // Objeto que trae sus propiedades y lo convierte a cadena
 
         txtName.value = "";
         txtNumber.value = "";
